@@ -1,20 +1,25 @@
 import { verifyToken } from "../services/jwt.service.js";
+import { findOneUserById } from "../services/user.service.js";
 
 export const authToken = async (req, res, next) => {
   try {
-    if (!req.headers["Authorization"])
+    if (!req.headers["authorization"])
       return res.status(401).send({ message: "Unauthorization" });
 
-    const token = req.headers["Authorization"].replace("Bearer ", "");
-
+    const token = req.headers["authorization"].replace("Bearer ", "") || req.cookies.accessToken;
     if (!token) return res.status(401).send({ message: "Unauthorization" });
 
     const decoded = verifyToken(token);
-    if (!decoded) return res.status(401).send({ message: "Unauthorization" });
+    const user = await findOneUserById(decoded.id);
+    if (!user) return res.status(401).send({ message: "Unauthorization" });
+
+    req.isSeller = decoded.isSeller;
+    req.userId = decoded.id;
 
     next();
   } catch (error) {
-    next(error);
+    console.log(error);
+    return res.status(401).send({ message: "Unauthorization" });
   }
 };
 

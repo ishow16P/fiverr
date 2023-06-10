@@ -4,6 +4,7 @@ import {
 } from "../services/jwt.service.js";
 import { createUser, findOneUser } from "../services/user.service.js";
 import bcrypt from "bcrypt";
+import { notFound, success, created, badRequest } from "../utils/response.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -14,7 +15,7 @@ export const register = async (req, res, next) => {
       password: hashed,
     };
     await createUser(data);
-    return res.status(201).send({ message: "Created" });
+    return created(req, res);
   } catch (error) {
     console.log(error);
     next(error);
@@ -27,11 +28,10 @@ export const login = async (req, res, next) => {
     // validate
     const query = { username: body.username };
     const user = await findOneUser(query);
-    if (!user) return res.status(404).send({ message: "User not found!" });
+    if (!user) return badRequest(req, res, "Wrong password or username!");
 
     const isCorrect = bcrypt.compareSync(body.password, user.password);
-    if (!isCorrect)
-      return res.status(400).send({ message: "Wrong password or username!" });
+    if (!isCorrect) return badRequest(req, res, "Wrong password or username!");
 
     const { password, ...info } = user._doc;
 
@@ -46,7 +46,11 @@ export const login = async (req, res, next) => {
       .cookie("accessToken", accessToken, { httpOnly: true })
       .cookie("refreshToken", refreshToken, { httpOnly: true })
       .status(200)
-      .send(info);
+      .send({
+        accessToken,
+        refreshToken,
+        info
+      });
   } catch (error) {
     next(error);
   }
@@ -54,10 +58,13 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res, next) => {
   try {
-    res.status(200).send({
-      message: "it work!!",
-    });
+    res
+      .clearCookie("accessToken", { samSite: "none", secure: true })
+      .clearCookie("refreshToken", { samSite: "none", secure: true });
+
+    return success(req, res, "User has been logged out");
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
@@ -67,7 +74,7 @@ export const refreshToken = async (req, res, next) => {
     const userId = req.userId;
 
     const user = await findOneUser({ _id: userId });
-    if (!user) return res.status(404).send({ message: "User not found!" });
+    if (!user) return notFound(req, res, "User not found!");
 
     const accessToken = generateToken({
       id: user._id,
@@ -83,7 +90,8 @@ export const refreshToken = async (req, res, next) => {
       .cookie("refreshToken", refreshToken, { httpOnly: true })
       .status(200)
       .send({
-        message: "Success",
+        accessToken,
+        refreshToken,
       });
   } catch (error) {
     next(error);

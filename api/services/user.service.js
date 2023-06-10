@@ -10,9 +10,27 @@ export const createUser = async (data) => {
   }
 };
 
+export const findOneUserById = async (id) => {
+  try {
+    const user = await User.findById(id);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const findOneUser = async (condition) => {
   try {
     const user = await User.findOne(condition);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const deleteOneUser = async (condition) => {
+  try {
+    const user = await User.findOneAndRemove(condition);
     return user;
   } catch (error) {
     throw error;

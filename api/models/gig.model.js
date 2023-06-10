@@ -66,6 +66,7 @@ const GigSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 

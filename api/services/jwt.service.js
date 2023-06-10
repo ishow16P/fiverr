@@ -3,7 +3,7 @@ import configs from "../configs/env-config.js";
 
 export const generateToken = (payload = null) => {
   return jwt.sign(payload, configs.secret_key, {
-    expiresIn: "5m",
+    expiresIn: "2h",
     algorithm: "HS256",
   });
 };

@@ -1,6 +1,5 @@
+import { serverError } from "./response.js";
+
 export const errorHandler = (error, req, res, next) => {
-  return res.status(500).send({
-    resultCode: "50000",
-    errorCode: "Server Error",
-  });
+  return serverError(req, res, error.message ? error.message : null);
 };

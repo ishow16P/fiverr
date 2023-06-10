@@ -23,6 +23,7 @@ const ReviewSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 

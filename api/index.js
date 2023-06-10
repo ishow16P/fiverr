@@ -5,11 +5,13 @@ import bodyParser from "body-parser";
 import { initDB } from "./models/db.js";
 import apiRoute from "./routes/api.route.js";
 import { errorHandler } from "./utils/error.js";
-const app = express();
 
 initDB(configs.db_connstr);
 
-app.use(cors());
+const app = express();
+
+app.use(express.static("public"));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

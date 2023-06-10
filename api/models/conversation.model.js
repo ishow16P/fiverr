@@ -31,6 +31,7 @@ const ConversationSchema = new Schema(
   },
   {
     timestamps: true,
+    versionKey: false
   }
 );
 
