@@ -28,9 +28,9 @@ export const findGigById = async (id) => {
   }
 };
 
-export const findGigs = async (condition) => {
+export const findGigs = async (condition, sort) => {
   try {
-    const gigs = await Gig.find(condition);
+    const gigs = await Gig.find(condition).sort({ [sort]: -1 });
     return gigs;
   } catch (error) {
     throw error;

@@ -28,6 +28,8 @@ function Navbar() {
     try {
       await newRequest.post("/auth/logout");
       localStorage.setItem("currentUser", null);
+      localStorage.setItem("accessToken", null);
+      localStorage.setItem("refreshToken", null);
       navigate("/");
     } catch (err) {
       console.log(err);

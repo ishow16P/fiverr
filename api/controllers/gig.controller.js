@@ -45,7 +45,7 @@ export const getGig = async (req, res, next) => {
 
     const gig = await findGigById(id);
     if (!gig) return notFound(req, res, "Gig not found!");
-
+    console.log(gig)
     return res.status(200).send(gig);
   } catch (error) {
     next(error);
@@ -66,8 +66,8 @@ export const getGigs = async (req, res, next) => {
       }),
       ...(query.search && { title: { $regex: query.search, $options: "i" } }), //option i query all uppercase and lowwercase
     };
-    console.log(filters);
-    const gigs = await findGigs(filters);
+    const sort = query.sort ? query.sort : null;
+    const gigs = await findGigs(filters, sort);
     return res.status(200).send(gigs);
   } catch (error) {
     next(error);

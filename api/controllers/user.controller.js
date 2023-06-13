@@ -1,11 +1,12 @@
-import { deleteOneUser } from "../services/user.service.js";
+import { deleteOneUser, findOneUserById } from "../services/user.service.js";
 import { notFound, success } from "../utils/response.js";
 
-export const getUser = (req, res, next) => {
+export const getUser = async (req, res, next) => {
   try {
-    res.status(200).send({
-      message: "it work!!",
-    });
+    const userId = req.params.id;
+    const user = await findOneUserById(userId);
+    console.log("user",user)
+    return res.status(200).send(user);
   } catch (error) {
     next(error);
   }
