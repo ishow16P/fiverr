@@ -16,7 +16,12 @@ export const generateRefreshToken = (payload = null) => {
 };
 
 export const verifyToken = (token) => {
-  return jwt.verify(token, configs.secret_key);
+  try {
+    return jwt.verify(token, configs.secret_key);
+  } catch (error) {
+    console.log(error)
+  }
+ 
 };
 
 export const verifyRefreshToken = (token) => {

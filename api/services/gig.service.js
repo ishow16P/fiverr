@@ -36,3 +36,12 @@ export const findGigs = async (condition, sort) => {
     throw error;
   }
 };
+
+export const updateOneGig = async (condition, data) => {
+  try {
+    const gig = await Gig.updateOne(condition, data, { new: true });
+    return gig;
+  } catch (error) {
+    throw error;
+  }
+};

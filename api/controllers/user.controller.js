@@ -5,7 +5,6 @@ export const getUser = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await findOneUserById(userId);
-    console.log("user",user)
     return res.status(200).send(user);
   } catch (error) {
     next(error);

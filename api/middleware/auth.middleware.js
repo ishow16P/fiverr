@@ -12,7 +12,6 @@ export const authToken = async (req, res, next) => {
     const decoded = verifyToken(token);
     const user = await findOneUserById(decoded.id);
     if (!user) return res.status(401).send({ message: "Unauthorization" });
-
     req.isSeller = decoded.isSeller;
     req.userId = decoded.id;
 

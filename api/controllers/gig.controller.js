@@ -45,7 +45,6 @@ export const getGig = async (req, res, next) => {
 
     const gig = await findGigById(id);
     if (!gig) return notFound(req, res, "Gig not found!");
-    console.log(gig)
     return res.status(200).send(gig);
   } catch (error) {
     next(error);

@@ -16,7 +16,9 @@ function Gig() {
         return res.data;
       }),
   });
-  console.log(data);
+
+  const userId = data?.userId;
+
   const {
     isLoading: isLoadingUser,
     error: errorUser,
@@ -24,9 +26,10 @@ function Gig() {
   } = useQuery({
     queryKey: ["user"],
     queryFn: () =>
-      newRequest.get(`/users/${data.userId}`).then((res) => {
+      newRequest.get(`/users/${userId}`).then((res) => {
         return res.data;
       }),
+    enabled: !!userId,
   });
   return (
     <div className="gig">
@@ -49,7 +52,7 @@ function Gig() {
               <div className="user">
                 <img
                   className="pp"
-                  src={dataUser.img || "/img/man.jpg"}
+                  src={dataUser.img || "/img/noavatar.jpg"}
                   alt=""
                 />
                 <span>{dataUser.username}</span>
@@ -80,7 +83,7 @@ function Gig() {
               <div className="seller">
                 <h2>About The Seller</h2>
                 <div className="user">
-                  <img src={dataUser.img || "/img/man.jp"} alt="" />
+                  <img src={dataUser.img || "/img/noavatar.jpg"} alt="" />
                   <div className="info">
                     <span>A{dataUser.username}</span>
                     {!isNaN(data.totalStars / data.starNumber) && (
@@ -126,7 +129,7 @@ function Gig() {
                 </div>
               </div>
             )}
-            <Reviews gigId={id}/>
+            <Reviews gigId={id} />
           </div>
           <div className="right">
             <div className="price">
