@@ -32,7 +32,9 @@ export const findOndConversation = async (condition) => {
 
 export const findConversations = async (condition) => {
   try {
-    const conversations = await Conversation.find(condition);
+    const conversations = await Conversation.find(condition).sort({
+      updatedAt: -1,
+    });
     return conversations;
   } catch (error) {
     throw error;
@@ -41,7 +43,9 @@ export const findConversations = async (condition) => {
 
 export const updateOneConversation = async (condition, data) => {
   try {
-    const conversation = await Conversation.findOneAndUpdate(condition, data);
+    const conversation = await Conversation.findOneAndUpdate(condition, data, {
+      new: true,
+    });
     return conversation;
   } catch (error) {
     throw error;

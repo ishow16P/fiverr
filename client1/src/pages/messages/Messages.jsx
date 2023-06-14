@@ -19,19 +19,19 @@ const Messages = () => {
         return res.data;
       }),
   });
-  console.log(data);
+
   const mutation = useMutation({
     mutationFn: (id) => {
-      return newRequest.put(`conversations/${id}`);
+      return newRequest.put(`/conversations/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["conversations"]);
     },
   });
+
   const handleRead = (id) => {
     mutation.mutate(id);
   };
-
   return (
     <div className="messages">
       {isLoading ? (

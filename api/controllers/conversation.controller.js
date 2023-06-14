@@ -5,6 +5,7 @@ import {
   saveConversation,
   updateOneConversation,
 } from "../services/conversation.service.js";
+import { notFound } from "../utils/response.js";
 
 export const createConversation = async (req, res, next) => {
   try {
@@ -35,7 +36,8 @@ export const getConversations = async (req, res, next) => {
 export const getSingleConversation = async (req, res, next) => {
   try {
     const { params } = req;
-    const conversation = await findOndConversation(params.id);
+    const conversation = await findOndConversation({ id: params.id });
+    if (!conversation) return notFound(req, res);
     return res.status(200).send(conversation);
   } catch (error) {
     next(error);
