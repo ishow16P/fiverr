@@ -13,10 +13,9 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Success } from "./pages/success/Success";
+import { Pay } from "./pages/pay/Pay";
 
 function App() {
   const queryClient = new QueryClient();
@@ -24,7 +23,7 @@ function App() {
   const Layout = () => {
     return (
       <div className="app">
-       <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
           <Navbar />
           <Outlet />
           <Footer />
@@ -77,14 +76,15 @@ function App() {
         {
           path: "/login",
           element: <Login />,
-        },    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
+        },
+        {
+          path: "/pay/:id",
+          element: <Pay />,
+        },
+        {
+          path: "/success",
+          element: <Success />,
+        },
       ],
     },
   ]);

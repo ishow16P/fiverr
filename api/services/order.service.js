@@ -18,3 +18,12 @@ export const findOrders = async (condition) => {
     throw error;
   }
 };
+
+export const updateOrder = async (condition, data) => {
+  try {
+    const orders = await Order.findOneAndUpdate(condition, data);
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+};

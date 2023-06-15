@@ -1,9 +1,10 @@
 import Express from "express";
-import { createOrder, getOrders } from "../controllers/order.controller.js";
+import { getOrders, intent, confirm } from "../controllers/order.controller.js";
 import { authToken } from "../middleware/auth.middleware.js";
 const router = Express.Router();
 
-router.post("/:gigId", authToken, createOrder);
 router.get("/", authToken, getOrders);
+router.post("/create-payment-intent/:id", authToken, intent);
+router.put("/", authToken, confirm);
 
 export default router;
