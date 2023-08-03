@@ -16,7 +16,7 @@ export const register = async (req, res, next) => {
     };
     await createUser(data);
     return created(req, res);
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
     next(error);
   }
